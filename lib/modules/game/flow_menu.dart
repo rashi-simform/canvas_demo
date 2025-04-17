@@ -1,4 +1,4 @@
-import 'package:canvas_demo/views/hexagonal_box.dart';
+import 'package:canvas_demo/modules/game/hexagonal_painter.dart';
 import 'package:flutter/material.dart';
 
 class FlowMenu extends StatefulWidget {
@@ -11,6 +11,7 @@ class FlowMenu extends StatefulWidget {
 class _FlowMenuState extends State<FlowMenu>
     with SingleTickerProviderStateMixin {
   late AnimationController menuAnimation;
+  int opacity = 1000;
   IconData lastTapped = Icons.notifications;
   final List<IconData> menuItems = <IconData>[
     Icons.home,
@@ -45,13 +46,39 @@ class _FlowMenuState extends State<FlowMenu>
           size: Size(buttonDiameter, buttonDiameter),
           painter: HexagonPainter(),
           child: IconButton(
-            icon: Icon(icon, size: 24),
+            icon: Icon(
+              icon,
+              size: 24,
+              color:
+                  icon != Icons.menu
+                      ? Colors.white.withAlpha(opacity)
+                      : Colors.white,
+            ),
+            enableFeedback: false,
+            tooltip:
+                icon == Icons.edit
+                    ? 'Edit'
+                    : icon == Icons.home
+                    ? 'Home'
+                    : icon == Icons.notifications
+                    ? 'Notifications'
+                    : icon == Icons.menu
+                    ? 'Menu'
+                    : 'Settings',
             onPressed: () {
               _updateMenu(icon);
-              if (menuAnimation.status == AnimationStatus.completed) {
+              final isAnimationCompleted =
+                  menuAnimation.status == AnimationStatus.completed;
+              if (isAnimationCompleted) {
                 menuAnimation.reverse();
+                setState(() {
+                  opacity = 0;
+                });
               } else {
                 menuAnimation.forward();
+                setState(() {
+                  opacity = 1000;
+                });
               }
             },
             color: Colors.white,
@@ -68,7 +95,7 @@ class _FlowMenuState extends State<FlowMenu>
       delegate: FlowMenuDelegate(menuAnimation: menuAnimation),
       children:
           menuItems
-              .map<Widget>((IconData icon) => flowMenuItem(icon, 100))
+              .map<Widget>((IconData icon) => flowMenuItem(icon, 110))
               .toList(),
     );
   }
@@ -91,18 +118,18 @@ class FlowMenuDelegate extends FlowDelegate {
     double dy = 0;
     for (int i = 0; i < context.childCount; ++i) {
       if (i.isEven) {
-        dx = context.getChildSize(i)!.width * ((i - 1) * 0.75);
-        dy = dy - (40);
+        dx = context.getChildSize(i)!.width * ((i - 1) * 0.73);
+        dy = dy - (45);
       } else {
-        final factor = (i * 0.25).toInt();
+        final factor = (i * 0.23).toInt();
         dx = context.getChildSize(i)!.width * factor;
-        dy = dy - ((i - 2) * 44);
+        dy = dy - ((i - 2) * 45);
       }
       context.paintChild(
         i,
         transform: Matrix4.translationValues(
-          dx * menuAnimation.value + 135,
-          dy * menuAnimation.value + 550,
+          dx * menuAnimation.value + 132,
+          dy * menuAnimation.value + 520,
           0,
         ),
       );

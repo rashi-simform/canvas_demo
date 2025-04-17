@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:canvas_demo/modules/boost_animation/boost_overlay_clipper.dart';
+import 'package:canvas_demo/modules/boost_animation/boost_overlay_painter.dart';
+import 'package:canvas_demo/modules/boost_animation/char_painter.dart';
 import 'package:canvas_demo/utils/overlay_utils.dart';
-import 'package:canvas_demo/views/boost_overlay_clipper.dart';
-import 'package:canvas_demo/views/boost_overlay_painter.dart';
-import 'package:canvas_demo/views/char_painter.dart';
-import 'package:canvas_demo/views/emoji_painter.dart';
-import 'package:canvas_demo/views/hand_painter.dart';
+import 'package:canvas_demo/modules/boost_animation/emoji_painter.dart';
+import 'package:canvas_demo/modules/boost_animation/hand_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 

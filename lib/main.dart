@@ -1,9 +1,11 @@
 import 'dart:math';
 
-import 'package:canvas_demo/modules/post_screen.dart';
+import 'package:canvas_demo/modules/boost_animation/post_screen.dart';
+import 'package:canvas_demo/modules/image_demo.dart';
+import 'package:canvas_demo/modules/transformation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:canvas_demo/modules/game_screen.dart';
+import 'modules/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,10 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: PostScreen()
+      home: SplashScreen()
     );
   }
 }
+
+
 class RectanglePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

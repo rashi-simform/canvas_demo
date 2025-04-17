@@ -115,7 +115,7 @@ packages:
   gaimon:
     dependency: "direct main"
     description:
-      path: "/Users/rashi.s/Documents/Github/demo/reaction_speedometer/gaimon"
+      path: "/Users/rashi.s/Documents/Github/demo/canvas_demo/gaimon"
       relative: false
     source: path
     version: "1.3.2"
