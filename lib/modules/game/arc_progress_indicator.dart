@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 class ArcProgressIndicator extends StatefulWidget {
   final double initialProgress;
 
-  const ArcProgressIndicator({
-    super.key,
-    this.initialProgress = 0,
-  });
+  const ArcProgressIndicator({super.key, this.initialProgress = 0});
 
   @override
   State<ArcProgressIndicator> createState() => _ArcProgressIndicatorState();
@@ -26,22 +23,13 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator> {
   }
 
   void _updateProgressFromPosition(Offset position) {
-    final center = Offset(
-      MediaQuery
-          .of(context)
-          .size
-          .width * 0.5,
-      MediaQuery
-          .of(context)
-          .size
-          .height * 0.5,
-    );
+    final size = MediaQuery
+        .of(context)
+        .size;
+    final center = Offset(size.width * 0.5, size.height * 0.5);
 
     // Calculate the angle from center to touch point
-    final angle = atan2(
-      position.dy - center.dy,
-      position.dx - center.dx,
-    );
+    final angle = atan2(position.dy - center.dy, position.dx - center.dx);
 
     // Normalize the angle to range [0, 2π]
     double normalizedAngle = angle > 1 ? angle : angle + 2 * pi;
@@ -66,10 +54,10 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onPanDown: (details) =>
-          _updateProgressFromPosition(details.localPosition),
-      onPanUpdate: (details) =>
-          _updateProgressFromPosition(details.localPosition),
+      onPanDown:
+          (details) => _updateProgressFromPosition(details.localPosition),
+      onPanUpdate:
+          (details) => _updateProgressFromPosition(details.localPosition),
       child: RepaintBoundary(
         child: CustomPaint(
           size: const Size(double.infinity, double.infinity),
@@ -116,31 +104,35 @@ class ArcPainter extends CustomPainter {
     final center = Offset(size.width * 0.5, size.height * 0.5);
     final radius = size.width * 0.4;
     final arcRect = Rect.fromCircle(center: center, radius: radius);
+    // final arcRect = Rect.fromLTRB(30,120,290,360);
+        // final arcRect = Rect.fromLTWH(20,40,230,230);
+        // final arcRect = Rect.fromPoints(Offset(50,50), Offset(260,280));
+        // final arcRect = Rect.fromCenter(
+        //     center: center, width: size.width * 0.8, height: size.width * 0.8);
+
 
     // Draw background arc
-    Paint backgroundPaint = Paint()
+    Paint backgroundPaint =
+    Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 8 // Increased strokeWidth for better visibility
       ..color = const Color(0xffa04Ff0).withAlpha(60);
 
     hitPath = Path()
-      ..addArc(arcRect,
-          startAngle,
-          sweepAngle
-      );
+      ..addArc(arcRect, startAngle, sweepAngle);
 
-    canvas.drawPath(
-      hitPath,
-      backgroundPaint,
-    );
+    canvas.drawPath(hitPath, backgroundPaint);
+
+    //To show rectangle
+    // canvas.drawRect(arcRect, backgroundPaint);
 
     // Draw progress arc
-    Paint progressPaint = Paint()
+    Paint progressPaint =
+    Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 8
       ..strokeCap = StrokeCap.round
       ..color = const Color(0xffa04Ff0);
-    // ..color = const Color(0xffffffff);
 
     canvas.drawArc(
       arcRect,
@@ -151,7 +143,8 @@ class ArcPainter extends CustomPainter {
     );
 
     // Draw inner circle
-    Paint innerCirclePaint = Paint()
+    Paint innerCirclePaint =
+    Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..color = const Color(0xffa04Ff0).withAlpha(60);
@@ -163,35 +156,18 @@ class ArcPainter extends CustomPainter {
     final circleX = center.dx + radius * cos(angle);
     final circleY = center.dy + radius * sin(angle);
 
-
     // Draw draggable circle
-    Paint circlePaint = Paint()
-      ..style = PaintingStyle.stroke
+    Paint circlePaint =
+    Paint()
+      ..style = PaintingStyle.fill
       ..strokeWidth = 5
       ..color = const Color(0xffa04Ff0);
-    // ..color = const Color(0xff2f3Ff5);
-
-    //TODO(Rashi): Check this for dotted line
-    // canvas.drawPoints(PointMode.points, [
-    //   Offset(100, 100),
-    //   Offset(106, 106),
-    //   Offset(113, 106),
-    //   Offset(130, 130),
-    //   Offset(140, 140),
-    //   Offset(150, 150),
-    // ], circlePaint);
-    // drawDashedLine(
-    //   canvas: canvas,
-    //   p1: Offset(100, 200),
-    //   p2: Offset(180, 300),
-    //   pattern: [20, 5, 5, 5],
-    //   paint: circlePaint,);
 
     canvas.drawCircle(Offset(circleX, circleY), 14, circlePaint);
 
-
     // Draw white border around the circle
-    Paint circleBorderPaint = Paint()
+    Paint circleBorderPaint =
+    Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1
       ..color = Colors.white;
@@ -203,8 +179,8 @@ class ArcPainter extends CustomPainter {
   bool shouldRepaint(covariant ArcPainter oldDelegate) {
     return oldDelegate.progress != progress;
   }
+  //TODO: hit test
 
-//TODO(Rashi): Check for the hitTest
 @override
 bool? hitTest(Offset position) {
   final center = Offset(190, 330);
@@ -215,28 +191,5 @@ bool? hitTest(Offset position) {
   ..arcTo(smallerArcRect, startAngle+sweepAngle, -sweepAngle, false);
   return path.contains(position);
 }
-
-  // void drawDashedLine({
-  //   required Canvas canvas,
-  //   required Offset p1,
-  //   required Offset p2,
-  //   required Iterable<double> pattern,
-  //   required Paint paint,
-  // }) {
-  //   assert(pattern.length.isEven);
-  //   final distance = (p2 - p1).distance;
-  //   final normalizedPattern = pattern.map((width) => width / distance).toList();
-  //   final points = <Offset>[];
-  //   double t = 0;
-  //   int i = 0;
-  //   while (t < 1) {
-  //     points.add(Offset.lerp(p1, p2, t)!);
-  //     t += normalizedPattern[i++]; // dashWidth
-  //     points.add(Offset.lerp(p1, p2, t.clamp(0, 1))!);
-  //     t += normalizedPattern[i++]; // dashSpace
-  //     i %= normalizedPattern.length;
-  //   }
-  //   canvas.drawPoints(ui.PointMode.lines, points, paint);
-  // }
 
 }

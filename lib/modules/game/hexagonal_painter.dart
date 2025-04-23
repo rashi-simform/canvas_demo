@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HexagonalPainter extends CustomPainter {
   @override
@@ -9,13 +13,14 @@ class HexagonalPainter extends CustomPainter {
       ..lineTo(size.width * 0.25, 0)
       ..lineTo(size.width * 0.75, 0)
       ..lineTo(size.width, size.height * 0.5)
-      ..lineTo(size.width * 0.75, size.height)
-      ..lineTo(size.width * 0.25, size.height)
-      ..lineTo(0, size.height * 0.5);
+      ..lineTo(size.width * 0.75, size.height)..lineTo(
+        size.width * 0.25, size.height)..lineTo(0, size.height * 0.5)
+      ..close();
 
     Paint paint =
     Paint()
       ..style = PaintingStyle.stroke
+      ..strokeJoin = StrokeJoin.round
       ..strokeWidth = 2;
     paint.color = Color(0xffa04Ff0).withAlpha(100);
     canvas.drawPath(path, paint);
@@ -30,10 +35,11 @@ class HexagonalPainter extends CustomPainter {
 }
 
 class HexagonPainter extends CustomPainter {
-  const HexagonPainter({super.repaint, this.rotationAngle});
+  const HexagonPainter({super.repaint, this.rotationAngle, this.image});
 
   /// rotationAngle is in radians and is used to rotate the hexagon
   final double? rotationAngle;
+  final ui.Image? image;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -152,34 +158,32 @@ class HexagonPainter extends CustomPainter {
     Paint fillPaint = Paint()..style = PaintingStyle.fill;
     fillPaint.color = Color(0xffa04Ff0).withAlpha(40);
 
+    //TODO: image shader
 
     if (rotationAngle != null && rotationAngle != 0) {
-      // Save the current canvas state
-      // canvas.save();
-
-      // Translate to the center of the rectangle
-      canvas.translate(size.width * 0.5, size.height * 0.5);
-
       // Rotate
-      canvas.rotate(rotationAngle!);
-
-      // Translate back to the original position (optional, depends on desired output)
-      canvas.translate(- size.width * 0.5,- size.height * 0.5);
-
-      // Draw the rotated rectangle
-      canvas.drawPath(path, strokePaint);
-      canvas.drawPath(path, fillPaint);
-
-      // Restore the canvas state
-      // canvas.restore();
-    }else{
-      canvas.drawPath(path, strokePaint);
-      canvas.drawPath(path, fillPaint);
+      // canvas.rotate(rotationAngle!);
+      //TODO: rotate-2
+      //TODO: canvas.transform
     }
+      canvas.drawPath(path, strokePaint);
+      canvas.drawPath(path, fillPaint);
+
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(covariant HexagonPainter oldDelegate) {
+    return oldDelegate.rotationAngle != rotationAngle ||
+        oldDelegate.image != image;
+  }
+}
+
+
+class AssetImageLoader {
+  static Future<ui.Image> loadImage(String assetPath) async {
+    final data = await rootBundle.load(assetPath);
+    final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+    final frameInfo = await codec.getNextFrame();
+    return frameInfo.image;
   }
 }

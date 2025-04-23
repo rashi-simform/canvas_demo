@@ -43,7 +43,6 @@ class _FlowMenuState extends State<FlowMenu>
         width: buttonDiameter,
         height: buttonDiameter,
         child: CustomPaint(
-          size: Size(buttonDiameter, buttonDiameter),
           painter: HexagonPainter(),
           child: IconButton(
             icon: Icon(
