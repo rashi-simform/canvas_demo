@@ -11,7 +11,7 @@ class FlowMenu extends StatefulWidget {
 class _FlowMenuState extends State<FlowMenu>
     with SingleTickerProviderStateMixin {
   late AnimationController menuAnimation;
-  int opacity = 1000;
+  int opacity = 0;
   IconData lastTapped = Icons.notifications;
   final List<IconData> menuItems = <IconData>[
     Icons.home,
@@ -49,9 +49,9 @@ class _FlowMenuState extends State<FlowMenu>
               icon,
               size: 24,
               color:
-                  icon != Icons.menu
-                      ? Colors.white.withAlpha(opacity)
-                      : Colors.white,
+                  icon == Icons.menu
+                      ? Colors.white
+                      : Colors.white.withAlpha(opacity),
             ),
             enableFeedback: false,
             tooltip:
