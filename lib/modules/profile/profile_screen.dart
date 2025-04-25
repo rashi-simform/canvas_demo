@@ -51,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           const SizedBox(height: 80),
           const CircleAvatar(
             radius: 40,
-            backgroundImage: AssetImage('assets/images/post1.jpg'),
+            backgroundImage: AssetImage('assets/images/post1.jpeg'),
           ),
           const SizedBox(height: 12),
           const Column(

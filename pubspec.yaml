@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   palette_generator:
   vibration:
+  image:
   gaimon:
     path: /Users/rashi.s/Documents/Github/demo/canvas_demo/gaimon
 

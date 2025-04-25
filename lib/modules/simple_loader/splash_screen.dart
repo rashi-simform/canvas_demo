@@ -1,4 +1,3 @@
-import 'package:canvas_demo/modules/game/game_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -41,20 +40,13 @@ class SplashScreenStateBase extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
       body: Center(
-          child: GestureDetector(
-            onDoubleTap: (){
-              Navigator.push<void>(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const GameScreen(),
-                ),
-              );
-            },
+          child: ColoredBox(
+            color: Colors.black,
             child: SizedBox(
-              width: 200,
-              height: 200,
+              width: 105,
+              height: 105,
               child: Center(
                 child: AnimatedBuilder(
                     animation: controller.view,

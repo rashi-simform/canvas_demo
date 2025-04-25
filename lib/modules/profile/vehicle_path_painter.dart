@@ -64,7 +64,7 @@ class PathPainter extends CustomPainter {
             }
           }
         }
-        canvas.drawPoints(PointMode.lines, points, pathPaint);
+        canvas.drawPoints(PointMode.points, points, pathPaint);
     // canvas.drawPath(incompletePath, pathPaint);
 
     canvas.drawCircle(

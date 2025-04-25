@@ -104,12 +104,7 @@ class ArcPainter extends CustomPainter {
     final center = Offset(size.width * 0.5, size.height * 0.5);
     final radius = size.width * 0.4;
     final arcRect = Rect.fromCircle(center: center, radius: radius);
-    // final arcRect = Rect.fromLTRB(30,120,290,360);
-        // final arcRect = Rect.fromLTWH(20,40,230,230);
-        // final arcRect = Rect.fromPoints(Offset(50,50), Offset(260,280));
-        // final arcRect = Rect.fromCenter(
-        //     center: center, width: size.width * 0.8, height: size.width * 0.8);
-
+   // TODO: Rect methods
 
     // Draw background arc
     Paint backgroundPaint =
@@ -180,16 +175,15 @@ class ArcPainter extends CustomPainter {
     return oldDelegate.progress != progress;
   }
   //TODO: hit test
-
-@override
-bool? hitTest(Offset position) {
-  final center = Offset(190, 330);
-  final arcRect = Rect.fromCircle(center: center, radius: 160);
-  final smallerArcRect = Rect.fromCircle(center: center, radius: 130);
-  final path =  Path()
-  ..arcTo(arcRect, startAngle, sweepAngle, false)
-  ..arcTo(smallerArcRect, startAngle+sweepAngle, -sweepAngle, false);
-  return path.contains(position);
-}
+  @override
+  bool? hitTest(Offset position) {
+    final center = Offset(190, 330);
+    final arcRect = Rect.fromCircle(center: center, radius: 160);
+    final smallerArcRect = Rect.fromCircle(center: center, radius: 130);
+    final path =  Path()
+    ..arcTo(arcRect, startAngle, sweepAngle, false)
+    ..arcTo(smallerArcRect, startAngle+sweepAngle, -sweepAngle, false);
+    return path.contains(position);
+  }
 
 }

@@ -35,23 +35,24 @@ class _DrawShapeState extends State<DrawShape>
     return Column(
       children: [
         Stack(
+          //TODO: heart clipper and painter
+
           children: [
             SizedBox(
               width: 400,
               height: 400,
-              //TODO: heart clipper and painter
-              child: ClipPath(
-                clipper: ShapeClipper(),
-                child: AnimatedBuilder(
-                  animation: animationController.view,
-                  builder: (context, _) {
-                    return SizedBox(
-                      width: 400,
-                      height: 400,
-                      child: CustomPaint(painter: ShapePainter( animationValue: animationController.value)),
-                    );
-                  },
-                ),
+              child: AnimatedBuilder(
+                animation: animationController.view,
+                builder: (context, _) {
+                  return SizedBox(
+                    width: 400,
+                    height: 400,
+                    child: CustomPaint(
+                      painter: ShapePainter(
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -75,47 +76,35 @@ class ShapePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint borderPaint =
-        Paint()
-          ..color = Colors.pink
-          ..style = PaintingStyle.fill;
-
-    final path =
-        Path()
-          ..moveTo(0.5 * size.width, size.height * 0.4)
-          ..cubicTo(
-            0.2 * size.width, size.height * 0.1, //control point 1
-            -0.25 * size.width,
-            size.height * 0.6,
-            0.5 * size.width,
-            size.height,
-          )
-          ..cubicTo(
-            1.25 * size.width,
-            size.height * 0.6,
-            0.8 * size.width,
-            size.height * 0.1,
-            0.5 * size.width,
-            size.height * 0.4,
-          )
-          ..close();
-
-    // canvas.drawPath(path, borderPaint);
-    borderPaint.style = PaintingStyle.stroke;
-    borderPaint.strokeWidth = 4;
-    borderPaint.color = Colors.white;
-    // canvas.drawPath(path, borderPaint);
-
     Paint paint =
         Paint()
-          ..color = Colors.blue
-          ..style = PaintingStyle.fill;
+          ..color = Colors.pink
+          ..style = PaintingStyle.stroke
+    ..strokeWidth=5;
 
-    Rect rect = Rect.fromLTWH(10, 10, size.width , size.height * animationValue);
+    //heart path
+    final path = Path()
+              ..moveTo(0.5 * size.width, size.height * 0.4)
+              ..cubicTo(
+                0.2 * size.width, size.height * 0.1, //control point 1
+                -0.25 * size.width, size.height * 0.6, //control point 2
+                0.5 * size.width, size.height, //end point
+              )
+              ..cubicTo(
+                1.25 * size.width, size.height * 0.6, //control point 1
+                0.8 * size.width, size.height * 0.1, //control point 2
+                0.5 * size.width, size.height * 0.4, //end point
+              )
+              ..close();
+
+    Rect rect = Rect.fromLTWH(10, 10, size.width, size.height * animationValue);
+
     canvas.drawRect(rect, paint);
+    canvas.drawRect(rect, paint..color = Colors.white ..style = PaintingStyle.fill);
+    canvas.drawPath(path, paint..color = Colors.pink ..style= PaintingStyle.stroke);
 
-    //TODO: rotate rect
-    //TODO: heart path
+    // canvas.drawPath(path, paint..color=Colors.pink);
+
   }
 
   @override
@@ -130,19 +119,19 @@ class ShapeClipper extends CustomClipper<Path> {
           ..moveTo(0.5 * size.width, size.height * 0.4)
           ..cubicTo(
             0.2 * size.width,
-            size.height * 0.1,
+            size.height * 0.1, //control point 1
             -0.25 * size.width,
-            size.height * 0.6,
+            size.height * 0.6, //control point 2
             0.5 * size.width,
-            size.height,
+            size.height, //end point
           )
           ..cubicTo(
             1.25 * size.width,
-            size.height * 0.6,
+            size.height * 0.6, //control point 1
             0.8 * size.width,
-            size.height * 0.1,
+            size.height * 0.1, //control point 2
             0.5 * size.width,
-            size.height * 0.4,
+            size.height * 0.4, //end point
           )
           ..close();
     return path;

@@ -44,16 +44,17 @@ class CornerButtonPainter extends CustomPainter {
           ..color = const Color(0xfb1fff9d);
 
     if (position == Position.topLeft) {
+      // topleft position
       canvas.scale(-1, 1);
       canvas.translate(-size.width, 0);
     } else if (position == Position.bottomRight) {
+      // bottomRight position
       canvas.scale(1, -1);
       canvas.translate(0, -size.height);
     } else if (position == Position.bottomLeft) {
-      canvas.scale(1, -1);
-      canvas.translate(0, -size.height);
-      canvas.scale(-1, 1);
-      canvas.translate(-size.width, 0);
+      // bottomLeft position
+      canvas.scale(-1, -1);
+      canvas.translate(-size.width, -size.height);
     }
     canvas.drawPath(path, paint);
   }

@@ -1,7 +1,4 @@
-import 'dart:math';
-
-import 'package:canvas_demo/modules/game/game_screen.dart';
-import 'package:canvas_demo/modules/simple_loader/splash_screen.dart';
+import 'package:canvas_demo/modules/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,14 +11,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: GameScreen()
+        home: HomeScreen()
     );
   }
 }
 
 
-
-
+/// Simple CustomPainter example to draw a rectangle
 class RectanglePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -45,27 +41,3 @@ class RectanglePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-
-
-class RectanglePainter2 extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint =
-    Paint()
-      ..color =
-          Colors
-              .blue // Rectangle color
-      ..style = PaintingStyle.fill; // Can be fill or stroke
-
-    // Rect rect = Rect.fromLTWH(50, 50, 100, 100); // (x, y, width, height)
-    // Rect rect = Rect.fromCenter(center: Offset(200, 0) , width: 20, height: 30); //(center, width, height)
-    // Rect rect = Rect.fromCircle(center: Offset(0, 0) , radius: 20); //(center, radius)
-    Rect rect = Rect.fromLTRB(10, 40, 200, 30); //(left, top, right, bottom)
-    // Rect rect = Rect.fromPoints(Offset(10, 40), Offset(200, 30)); //(offset1, offset2)
-    canvas.drawRect(rect, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
-}
-

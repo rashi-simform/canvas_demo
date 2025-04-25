@@ -210,7 +210,7 @@ class _PostScreenState extends State<PostScreen>
         alignment: Alignment.center,
         children: [
           Image.asset(
-            'assets/images/post1.jpg',
+            'assets/images/background3.jpg',
             height: dimensions.height,
             width: dimensions.width,
             opacity: const AlwaysStoppedAnimation(0.9),

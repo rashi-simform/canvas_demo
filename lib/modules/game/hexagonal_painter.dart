@@ -162,13 +162,16 @@ class HexagonPainter extends CustomPainter {
 
     if (rotationAngle != null && rotationAngle != 0) {
       // Rotate
-      // canvas.rotate(rotationAngle!);
-      //TODO: rotate-2
-      //TODO: canvas.transform
+      canvas.translate(size.width*0.5, size.height*0.5);
+      canvas.rotate(rotationAngle!);
+      canvas.translate(-size.width*0.5, -size.height*0.5);
     }
+
+
+    final paint = Paint()
+      ..color = Colors.white;
       canvas.drawPath(path, strokePaint);
       canvas.drawPath(path, fillPaint);
-
   }
 
   @override
